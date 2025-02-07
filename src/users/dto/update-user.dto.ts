@@ -7,19 +7,24 @@ import { ApiProperty } from '@nestjs/swagger';
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
 
 export class UpdateNewUserDto {
+  @ApiProperty()
   @IsUUID()
   id: string;
 
+  @ApiProperty()
   @IsString()
   password_set_token: string;
 
+  @ApiProperty()
   @IsString()
   password: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   avatar_url: string;
 
+  @ApiProperty()
   @IsString()
   phone_number: string;
 

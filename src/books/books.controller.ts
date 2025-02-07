@@ -3,14 +3,23 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
-import { UpdateBookDto } from './dto/update-book.dto';
+// import { UpdateBookDto } from './dto/update-book.dto';
 import { CreateBookDto } from './dto/create-book.dto';
+import {
+  BookFilterDto,
+  BookFilterResponseDto,
+  BookListItem,
+} from './dto/filter-book.dto';
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('book')
+@ApiExtraModels(BookFilterDto, BookListItem, BookFilterResponseDto)
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
@@ -20,9 +29,16 @@ export class BooksController {
     return this.booksService.create(CreateBookDto.list);
   }
 
-  @Get()
-  findAll() {
-    return this.booksService.findAll();
+  // @Get()
+  // findAll() {
+  //   return this.booksService.findAll();
+  // }
+
+  @Get('')
+  async listing_books(
+    @Query() filterDto: BookFilterDto,
+  ): Promise<BookFilterResponseDto> {
+    return await this.booksService.listing_books(filterDto);
   }
 
   @Get(':id')
@@ -30,10 +46,10 @@ export class BooksController {
     return this.booksService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.booksService.update(+id, updateBookDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+  //   return this.booksService.update(+id, updateBookDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

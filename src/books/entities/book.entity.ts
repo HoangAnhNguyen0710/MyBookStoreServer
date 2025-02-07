@@ -1,7 +1,13 @@
 import { Category } from '../../categories/entities/category.entity';
 import { BaseEntity } from '../../common/baseEntity';
 import { Publisher } from '../../publishers/entities/publisher.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 export enum Language {
   ENGLISH = 'English',
@@ -33,7 +39,11 @@ export class Book extends BaseEntity {
   isbn: string;
 
   @ManyToOne(() => Publisher, (publisher) => publisher.books)
+  @JoinColumn({ name: 'publisherId' })
   publisher: Publisher;
+
+  @Column({ type: 'int', nullable: true }) // Explicitly define the foreign key column
+  publisherId: number;
 
   @Column({ type: 'date', nullable: true })
   publication_date: Date;
@@ -89,5 +99,9 @@ export class Book extends BaseEntity {
   series?: string;
 
   @ManyToOne(() => Category, (category) => category.books)
+  @JoinColumn({ name: 'categoryId' })
   category: Category;
+
+  @Column({ type: 'int', nullable: true }) // Explicitly define the foreign key column
+  categoryId: number;
 }

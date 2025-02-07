@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID generator
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
-import { ListingUserItem } from './dto/responses.dto';
+import { ListingUserItem } from './dto/listing-users-response';
 import { plainToInstance } from 'class-transformer';
 
 @Injectable()

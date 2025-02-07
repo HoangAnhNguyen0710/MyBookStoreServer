@@ -22,8 +22,8 @@ export class AuthMiddleware implements NestMiddleware {
     // console.log(req.headers);
     const publicRoutes = [
       '/login',
-      '/sign-in/step-1',
-      '/sign-in/step-2',
+      '/sign-up/step-1',
+      '/sign-up/step-2',
       'validate-pw-set-token',
     ];
     if (publicRoutes.includes(req.path)) {

@@ -9,8 +9,12 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { UpdateNewUserDto, UpdateUserDto } from './dto/update-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 
+@ApiTags('User')
+@ApiExtraModels(CreateUserDto, UpdateNewUserDto, UpdateUserDto) // Thêm tất cả DTO vào OpenAPI
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

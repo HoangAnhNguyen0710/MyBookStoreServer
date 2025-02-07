@@ -17,18 +17,21 @@ export class LoginDto {
 }
 
 export class UserBasicInfor {
+  @ApiProperty()
   email: string;
 
+  @ApiProperty()
   name: string;
 
+  @ApiProperty()
   role: UserRole;
 }
 
 export class LoginResponseDto {
-  @ApiProperty() // Fake token example
+  @ApiProperty()
   accessToken: string;
 
-  @ApiProperty() // Fake token example
+  @ApiProperty()
   refreshToken: string;
 
   @ApiProperty({ type: () => UserBasicInfor }) // Liên kết đến class UserBasicInfor
