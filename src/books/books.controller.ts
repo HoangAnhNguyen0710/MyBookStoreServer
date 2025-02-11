@@ -17,6 +17,7 @@ import {
   BookListItem,
 } from './dto/filter-book.dto';
 import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
+import { GetBookResponseDto } from './dto/get-book.dto';
 
 @ApiTags('book')
 @ApiExtraModels(BookFilterDto, BookListItem, BookFilterResponseDto)
@@ -41,9 +42,9 @@ export class BooksController {
     return await this.booksService.listing_books(filterDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.booksService.findOne(+id);
+  @Get('/:id')
+  async findOne(@Param('id') id: string): Promise<GetBookResponseDto> {
+    return await this.booksService.findOne(+id);
   }
 
   // @Patch(':id')
@@ -51,7 +52,7 @@ export class BooksController {
   //   return this.booksService.update(+id, updateBookDto);
   // }
 
-  @Delete(':id')
+  @Delete('/:id')
   remove(@Param('id') id: string) {
     return this.booksService.remove(+id);
   }
