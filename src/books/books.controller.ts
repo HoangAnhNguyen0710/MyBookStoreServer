@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
 // import { UpdateBookDto } from './dto/update-book.dto';
@@ -18,9 +19,15 @@ import {
 } from './dto/filter-book.dto';
 import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
 import { GetBookResponseDto } from './dto/get-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @ApiTags('book')
-@ApiExtraModels(BookFilterDto, BookListItem, BookFilterResponseDto)
+@ApiExtraModels(
+  BookFilterDto,
+  BookListItem,
+  BookFilterResponseDto,
+  CreateBookDto,
+)
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
@@ -47,10 +54,11 @@ export class BooksController {
     return await this.booksService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-  //   return this.booksService.update(+id, updateBookDto);
-  // }
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
+    await this.booksService.update(+id, updateBookDto);
+    return true;
+  }
 
   @Delete('/:id')
   remove(@Param('id') id: string) {

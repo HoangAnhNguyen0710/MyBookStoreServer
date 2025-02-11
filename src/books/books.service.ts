@@ -10,6 +10,7 @@ import {
   BookListItem,
 } from './dto/filter-book.dto';
 import { GetBookResponseDto } from './dto/get-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BooksService {
@@ -35,8 +36,17 @@ export class BooksService {
     });
   }
 
-  update(id: number) {
-    return `This action updates a #${id} book`;
+  async update(id: number, updateBookDto: UpdateBookDto) {
+    const book = await this.bookRepository.findOne({ where: { id } });
+
+    if (!book) {
+      throw new NotFoundException(`Không tìm thấy sách với ID ${id}`);
+    }
+
+    // Cập nhật thông tin sách
+    Object.assign(book, updateBookDto);
+
+    return this.bookRepository.save(book);
   }
 
   remove(id: number) {

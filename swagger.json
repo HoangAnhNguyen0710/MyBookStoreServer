@@ -160,6 +160,37 @@
           "book"
         ]
       },
+      "put": {
+        "operationId": "BooksController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "book"
+        ]
+      },
       "delete": {
         "operationId": "BooksController_remove",
         "parameters": [
@@ -621,9 +652,290 @@
           }
         }
       },
+      "Dimensions": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "string",
+            "example": "20cm"
+          },
+          "width": {
+            "type": "string",
+            "example": "15cm"
+          },
+          "thickness": {
+            "type": "string",
+            "example": "2cm"
+          }
+        },
+        "required": [
+          "height",
+          "width",
+          "thickness"
+        ]
+      },
+      "BookItem": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "The Great Gatsby"
+          },
+          "author": {
+            "type": "string",
+            "example": "F. Scott Fitzgerald"
+          },
+          "isbn": {
+            "type": "string",
+            "example": "978-0743273565"
+          },
+          "publisherId": {
+            "type": "number",
+            "example": 2
+          },
+          "publication_date": {
+            "type": "string",
+            "example": "1925-04-10"
+          },
+          "price": {
+            "type": "number",
+            "example": 19.99
+          },
+          "stock_quantity": {
+            "type": "number",
+            "example": 50
+          },
+          "categoryId": {
+            "type": "number",
+            "example": 1
+          },
+          "language": {
+            "type": "string",
+            "example": "English",
+            "enum": [
+              "English",
+              "Spanish",
+              "French",
+              "German",
+              "Chinese",
+              "Japanese",
+              "Korean",
+              "Italian",
+              "Russian",
+              "Hindi",
+              "Arabic"
+            ]
+          },
+          "page_count": {
+            "type": "number",
+            "example": 180
+          },
+          "description": {
+            "type": "string",
+            "example": "A classic novel..."
+          },
+          "format": {
+            "type": "string",
+            "example": "Hardcover"
+          },
+          "dimensions": {
+            "$ref": "#/components/schemas/Dimensions"
+          },
+          "weight": {
+            "type": "string",
+            "example": "500g"
+          },
+          "cover_image_url": {
+            "type": "string",
+            "example": "https://example.com/book-cover.jpg"
+          },
+          "rating": {
+            "type": "number",
+            "example": 4.5
+          },
+          "number_of_reviews": {
+            "type": "number",
+            "example": 200
+          },
+          "tags": {
+            "example": [
+              "fiction",
+              "classic"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "edition": {
+            "type": "string",
+            "example": "First Edition"
+          },
+          "series": {
+            "type": "string",
+            "example": "The Great Gatsby Series"
+          }
+        },
+        "required": [
+          "title",
+          "author",
+          "isbn",
+          "publication_date",
+          "price",
+          "stock_quantity",
+          "language",
+          "page_count",
+          "rating",
+          "number_of_reviews"
+        ]
+      },
       "CreateBookDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookItem"
+            }
+          }
+        },
+        "required": [
+          "list"
+        ]
+      },
+      "UpdateDimensions": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "string",
+            "example": "20cm"
+          },
+          "width": {
+            "type": "string",
+            "example": "15cm"
+          },
+          "thickness": {
+            "type": "string",
+            "example": "2cm"
+          }
+        }
+      },
+      "UpdateBookDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "The Great Gatsby"
+          },
+          "author": {
+            "type": "string",
+            "example": "F. Scott Fitzgerald"
+          },
+          "isbn": {
+            "type": "string",
+            "example": "978-0743273565"
+          },
+          "publisherId": {
+            "type": "number",
+            "example": 2,
+            "description": "ID của nhà xuất bản"
+          },
+          "publication_date": {
+            "type": "string",
+            "example": "1925-04-10"
+          },
+          "price": {
+            "type": "number",
+            "example": 19.99
+          },
+          "stock_quantity": {
+            "type": "number",
+            "example": 50
+          },
+          "categoryId": {
+            "type": "number",
+            "example": 1,
+            "description": "ID của danh mục sách"
+          },
+          "language": {
+            "type": "string",
+            "example": "English",
+            "enum": [
+              "English",
+              "Spanish",
+              "French",
+              "German",
+              "Chinese",
+              "Japanese",
+              "Korean",
+              "Italian",
+              "Russian",
+              "Hindi",
+              "Arabic"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "example": "AVAILABLE",
+            "enum": [
+              "AVAILABLE",
+              "OUT_OF_STOCK",
+              "PRE_ORDER",
+              "SOLD_OUT",
+              "COMING_SOON",
+              "DISCONTINUED"
+            ]
+          },
+          "page_count": {
+            "type": "number",
+            "example": 180
+          },
+          "description": {
+            "type": "string",
+            "example": "A classic novel..."
+          },
+          "format": {
+            "type": "string",
+            "example": "Hardcover"
+          },
+          "dimensions": {
+            "$ref": "#/components/schemas/UpdateDimensions"
+          },
+          "weight": {
+            "type": "string",
+            "example": "500g"
+          },
+          "cover_image_url": {
+            "type": "string",
+            "example": "https://example.com/book-cover.jpg"
+          },
+          "rating": {
+            "type": "number",
+            "example": 4.5
+          },
+          "number_of_reviews": {
+            "type": "number",
+            "example": 200
+          },
+          "tags": {
+            "example": [
+              "fiction",
+              "classic"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "edition": {
+            "type": "string",
+            "example": "First Edition"
+          },
+          "series": {
+            "type": "string",
+            "example": "The Great Gatsby Series"
+          }
+        }
       },
       "CreatePublisherDto": {
         "type": "object",

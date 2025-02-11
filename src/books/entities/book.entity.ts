@@ -24,6 +24,15 @@ export enum Language {
   // Add more languages as needed
 }
 
+export enum BookStatus {
+  AVAILABLE = 'AVAILABLE', // Còn hàng
+  OUT_OF_STOCK = 'OUT_OF_STOCK', // Hết hàng
+  PRE_ORDER = 'PRE_ORDER', // Sắp bán (đặt trước)
+  SOLD_OUT = 'SOLD_OUT', // Đã bán hết
+  COMING_SOON = 'COMING_SOON', // Sắp có hàng
+  DISCONTINUED = 'DISCONTINUED', // Ngừng kinh doanh
+}
+
 @Entity('books')
 export class Book extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -60,6 +69,14 @@ export class Book extends BaseEntity {
     enumName: 'language_enum', // Specify the enum name in PostgreSQL
   })
   language: Language;
+
+  @Column({
+    type: 'enum',
+    enum: BookStatus,
+    enumName: 'status_enum',
+    default: BookStatus.AVAILABLE,
+  })
+  status: BookStatus;
 
   @Column({ type: 'int' })
   page_count: number;
