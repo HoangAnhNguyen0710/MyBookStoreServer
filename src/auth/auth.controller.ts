@@ -17,7 +17,7 @@ import { ApiExtraModels, ApiTags } from '@nestjs/swagger';
   SignUpFirstStepDto,
   SignUpSecondStepDto,
   VerifyTokenResponseDto,
-) // Thêm tất cả DTO vào OpenAPI
+)
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}

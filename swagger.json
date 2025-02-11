@@ -58,6 +58,17 @@
             }
           },
           {
+            "name": "category_ids",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
             "name": "rating_from",
             "required": false,
             "in": "query",
@@ -67,6 +78,22 @@
           },
           {
             "name": "rating_to",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "price_from",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "price_to",
             "required": false,
             "in": "query",
             "schema": {
@@ -124,37 +151,6 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "book"
-        ]
-      },
-      "patch": {
-        "operationId": "BooksController_update",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateBookDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": ""
@@ -527,10 +523,22 @@
               "type": "number"
             }
           },
+          "category_ids": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
           "rating_from": {
             "type": "number"
           },
           "rating_to": {
+            "type": "number"
+          },
+          "price_from": {
+            "type": "number"
+          },
+          "price_to": {
             "type": "number"
           },
           "tags": {
@@ -563,7 +571,10 @@
             "type": "string"
           },
           "publisherId": {
-            "type": "number"
+            "type": "object"
+          },
+          "categoryId": {
+            "type": "object"
           },
           "price": {
             "type": "number"
@@ -590,6 +601,7 @@
           "title",
           "isbn",
           "publisherId",
+          "categoryId",
           "price",
           "rating",
           "number_of_reviews"
@@ -610,10 +622,6 @@
         }
       },
       "CreateBookDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateBookDto": {
         "type": "object",
         "properties": {}
       },
