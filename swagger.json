@@ -17,15 +17,16 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "response list of saved books"
           }
         },
+        "summary": "upload book(s) to server",
         "tags": [
           "book"
         ]
       },
       "get": {
-        "operationId": "BooksController_listing_books",
+        "operationId": "BooksController_listingBooks",
         "parameters": [
           {
             "name": "author",
@@ -130,9 +131,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "response list of books filter by conditions"
           }
         },
+        "summary": "filter books by conditions",
         "tags": [
           "book"
         ]
@@ -153,9 +155,10 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "response book with id"
           }
         },
+        "summary": "get a book by id",
         "tags": [
           "book"
         ]
@@ -184,9 +187,10 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "return true if book successful updated"
           }
         },
+        "summary": "update a book by id",
         "tags": [
           "book"
         ]
@@ -229,19 +233,49 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Response id of created publisher"
+          },
+          "400": {
+            "description": "Publisher is already exist"
           }
         },
+        "summary": "Add a publisher",
         "tags": [
           "Publishers"
         ]
       },
       "get": {
-        "operationId": "PublishersController_findAll",
-        "parameters": [],
+        "operationId": "PublishersController_listingPublishers",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "per_page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListingPublisherResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -262,37 +296,6 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "Publishers"
-        ]
-      },
-      "patch": {
-        "operationId": "PublishersController_update",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdatePublisherDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": ""
@@ -939,11 +942,122 @@
       },
       "CreatePublisherDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Penguin Random House",
+            "description": "Tên nhà xuất bản"
+          },
+          "website": {
+            "type": "string",
+            "example": "https://www.penguinrandomhouse.com",
+            "description": "Website của nhà xuất bản"
+          },
+          "contact_email": {
+            "type": "string",
+            "example": "contact@publisher.com",
+            "description": "Email liên hệ"
+          },
+          "phone_number": {
+            "type": "string",
+            "example": "+1234567890",
+            "description": "Số điện thoại liên hệ"
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main Street, New York, USA",
+            "description": "Địa chỉ nhà xuất bản"
+          },
+          "country": {
+            "type": "string",
+            "example": "USA",
+            "description": "Quốc gia"
+          }
+        },
+        "required": [
+          "name"
+        ]
       },
-      "UpdatePublisherDto": {
+      "PublisherItemDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Penguin Random House"
+          },
+          "website": {
+            "type": "string",
+            "example": "https://www.penguinrandomhouse.com",
+            "nullable": true
+          },
+          "contact_email": {
+            "type": "string",
+            "example": "contact@publisher.com",
+            "nullable": true
+          },
+          "phone_number": {
+            "type": "string",
+            "example": "+84916313317",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "example": "123 Main Street, New York, USA",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "example": "USA",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "website",
+          "contact_email",
+          "phone_number",
+          "address",
+          "country"
+        ]
+      },
+      "ListingPublisherResponseDto": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "number",
+            "example": 1
+          },
+          "per_page": {
+            "type": "number",
+            "example": 10
+          },
+          "total": {
+            "type": "number",
+            "example": 50
+          },
+          "total_pages": {
+            "type": "number",
+            "example": 5
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublisherItemDto"
+            }
+          }
+        },
+        "required": [
+          "page",
+          "per_page",
+          "total",
+          "total_pages",
+          "data"
+        ]
       },
       "CreateUserDto": {
         "type": "object",

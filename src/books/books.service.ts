@@ -53,9 +53,7 @@ export class BooksService {
     return `This action removes a #${id} book`;
   }
 
-  async listing_books(
-    filterDto: BookFilterDto,
-  ): Promise<BookFilterResponseDto> {
+  async listingBooks(filterDto: BookFilterDto): Promise<BookFilterResponseDto> {
     const query = this.bookRepository.createQueryBuilder('book');
     const page = filterDto.page | 1;
     const per_page = filterDto.per_page | 20;
