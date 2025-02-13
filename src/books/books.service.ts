@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BookItem } from './dto/create-book.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Book } from './entities/book.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -18,12 +18,18 @@ export class BooksService {
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,
   ) {}
-  create(books: BookItem[]) {
-    return this.bookRepository.insert(books);
-  }
+  async create(books: BookItem[]) {
+    const isbns = books.map((book) => book.isbn);
+    const existing_books = await this.bookRepository.find({
+      where: { isbn: In(isbns) },
+      select: ['isbn'],
+    });
 
-  findAll() {
-    return `This action returns all books`;
+    const existingIsbnSet = new Set(existing_books.map((book) => book.isbn));
+
+    const new_books = books.filter((book) => !existingIsbnSet.has(book.isbn));
+
+    return this.bookRepository.insert(new_books);
   }
 
   async findOne(id: number) {

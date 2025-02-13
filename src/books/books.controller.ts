@@ -43,8 +43,8 @@ export class BooksController {
     status: 201,
     description: 'response list of saved books',
   })
-  create(@Body() CreateBookDto: CreateBookDto) {
-    return this.booksService.create(CreateBookDto.list);
+  async create(@Body() CreateBookDto: CreateBookDto) {
+    return await this.booksService.create(CreateBookDto.list);
   }
 
   @Get('')
