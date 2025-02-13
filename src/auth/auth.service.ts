@@ -7,8 +7,13 @@ import { LoginDto } from './dto/login.dto';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { SignUpFirstStepDto, SignUpSecondStepDto } from './dto/sign-up.dto';
+import {
+  SignUpFirstStepDto,
+  SignUpFirstStepResponseDto,
+  SignUpSecondStepDto,
+} from './dto/sign-up.dto';
 import { JwtPayload } from '../middleware/auth.middleware';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class AuthService {
@@ -19,10 +24,10 @@ export class AuthService {
   async login(request: LoginDto) {
     const user = await this.usersService.findOneByEmail(request.email);
     if (!user) {
-      throw new BadRequestException('User is not exist');
+      throw new UnauthorizedException('User is not exist');
     }
     if (!(await bcrypt.compare(request.password, user.password))) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid password');
     }
     const payload = { sub: user.id, email: user.email };
     return {
@@ -66,10 +71,15 @@ export class AuthService {
   async signUpFirstStep(request: SignUpFirstStepDto) {
     try {
       const newUser = await this.usersService.create(request);
-      if (!newUser) return false;
-      return true;
+      return plainToInstance(SignUpFirstStepResponseDto, newUser, {
+        excludeExtraneousValues: true,
+      });
     } catch (error) {
-      throw new BadRequestException(error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      const err = error as Error;
+      throw new BadRequestException(err.message || 'Sign up failed');
     }
   }
 
@@ -78,7 +88,14 @@ export class AuthService {
       await this.usersService.updateNewUser(request);
       return true;
     } catch (error) {
-      throw new BadRequestException(error);
+      if (
+        error instanceof BadRequestException ||
+        error instanceof UnauthorizedException
+      ) {
+        throw error;
+      }
+      const err = error as Error;
+      throw new BadRequestException(err.message || 'Sign up failed');
     }
   }
 
@@ -90,7 +107,7 @@ export class AuthService {
 
   async validateToken(token: string) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unnecessary-type-assertion
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const decoded = (await this.jwtService.verifyAsync(token)) as JwtPayload;
       const user = await this.usersService.findOneByEmail(decoded.email);
       if (!user) return null;

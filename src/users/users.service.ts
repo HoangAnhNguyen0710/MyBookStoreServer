@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateNewUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,13 +21,12 @@ export class UsersService {
     private readonly userRepository: Repository<User>, // Khai báo biến userRepository
   ) {}
 
-  // async create(createUserDto: CreateUserDto) {}
   async create(createUserDto: CreateUserDto) {
     const is_exist_user = await this.userRepository.findOne({
       where: [{ email: createUserDto.email }, { name: createUserDto.name }],
     });
     if (is_exist_user) {
-      throw new BadRequestException('Email hoặc Username đã tồn tại');
+      throw new BadRequestException('Email or Username is already exist');
     }
     createUserDto.id = uuidv4();
     createUserDto.password_set_token = randomBytes(16).toString('hex');
@@ -40,7 +43,7 @@ export class UsersService {
       throw new BadRequestException('User is not exist');
     }
     if (user.password_set_token !== updateUser.password_set_token) {
-      throw new BadRequestException('Token is invalidated');
+      throw new UnauthorizedException('Token is invalidated');
     }
     updateUser.password = await bcrypt.hash(updateUser.password, 10);
     Object.assign(user, updateUser);
