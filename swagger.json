@@ -156,6 +156,9 @@
         "responses": {
           "200": {
             "description": "response book with id"
+          },
+          "404": {
+            "description": "book is not exist"
           }
         },
         "summary": "get a book by id",
@@ -922,6 +925,36 @@
           "list"
         ]
       },
+      "PublisherDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "CategoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
       "GetBookResponseDto": {
         "type": "object",
         "properties": {
@@ -937,11 +970,21 @@
           "isbn": {
             "type": "string"
           },
-          "publisherId": {
-            "type": "object"
+          "publisher": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PublisherDto"
+              }
+            ]
           },
-          "categoryId": {
-            "type": "object"
+          "category": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CategoryDto"
+              }
+            ]
           },
           "language": {
             "type": "string"
@@ -991,8 +1034,8 @@
           "author",
           "title",
           "isbn",
-          "publisherId",
-          "categoryId",
+          "publisher",
+          "category",
           "language",
           "page_count",
           "description",

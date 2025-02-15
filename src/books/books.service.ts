@@ -33,7 +33,10 @@ export class BooksService {
   }
 
   async findOne(id: number) {
-    const book = await this.bookRepository.findOne({ where: { id: id } });
+    const book = await this.bookRepository.findOne({
+      where: { id: id },
+      relations: ['publisher', 'category'],
+    });
     if (!book) {
       throw new NotFoundException('book is not exist');
     }
