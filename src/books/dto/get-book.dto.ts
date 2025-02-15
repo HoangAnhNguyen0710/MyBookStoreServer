@@ -57,6 +57,10 @@ export class GetBookResponseDto {
 
   @ApiProperty()
   @Expose()
+  stock_quantity: number;
+
+  @ApiProperty()
+  @Expose()
   number_of_reviews: number;
 
   @ApiProperty({ required: false })

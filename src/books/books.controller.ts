@@ -31,6 +31,7 @@ import { UpdateBookDto } from './dto/update-book.dto';
   BookListItem,
   BookFilterResponseDto,
   CreateBookDto,
+  GetBookResponseDto,
 )
 @Controller('books')
 export class BooksController {
@@ -66,6 +67,10 @@ export class BooksController {
   @ApiResponse({
     status: 200,
     description: 'response book with id',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'book is not exist',
   })
   async findOne(@Param('id') id: string): Promise<GetBookResponseDto> {
     return await this.booksService.findOne(+id);
