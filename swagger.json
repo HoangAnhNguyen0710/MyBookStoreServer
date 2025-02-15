@@ -278,6 +278,7 @@
             }
           }
         },
+        "summary": "Get a list of publishers",
         "tags": [
           "Publishers"
         ]
@@ -396,15 +397,47 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/LoginDto"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Valid login credentials",
+                  "value": {
+                    "email": "HoangAnhNguyen07102001@gmail.com",
+                    "password": "12345678"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedException"
+                },
+                "example": {
+                  "message": "User is not exist",
+                  "error": "Unauthorized",
+                  "statusCode": 401
+                }
+              }
+            }
           }
         },
+        "summary": "User login",
         "tags": [
           "Auth"
         ]
@@ -420,15 +453,47 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/SignUpFirstStepDto"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Valid sign up step 1 credentials",
+                  "value": {
+                    "email": "HoangAnhNguyen07102001@gmail.com",
+                    "name": "Hoanh"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpFirstStepResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestException"
+                },
+                "example": {
+                  "message": "Email or Username is already exist",
+                  "error": "Bad Request",
+                  "statusCode": 400
+                }
+              }
+            }
           }
         },
+        "summary": "User sign up step 1",
         "tags": [
           "Auth"
         ]
@@ -444,15 +509,66 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/SignUpSecondStepDto"
+              },
+              "examples": {
+                "example1": {
+                  "summary": "Valid sign up step 2 credentials",
+                  "value": {
+                    "id": "550e8400-e29b-41d4-a716-446655440000",
+                    "password_set_token": "123456789abcdef",
+                    "password": "SecureP@ssw0rd",
+                    "avatar_url": "https://example.com/avatar.jpg",
+                    "phone_number": "+84916313317",
+                    "role": "USER"
+                  }
+                }
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestException"
+                },
+                "example": {
+                  "message": "User is not exist",
+                  "error": "Bad Request",
+                  "statusCode": 400
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedException"
+                },
+                "example": {
+                  "message": "Token is invalidated",
+                  "error": "Bad Request",
+                  "statusCode": 401
+                }
+              }
+            }
           }
         },
+        "summary": "User sign up step 2",
         "tags": [
           "Auth"
         ]
@@ -806,6 +922,89 @@
           "list"
         ]
       },
+      "GetBookResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "author": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "isbn": {
+            "type": "string"
+          },
+          "publisherId": {
+            "type": "object"
+          },
+          "categoryId": {
+            "type": "object"
+          },
+          "language": {
+            "type": "string"
+          },
+          "page_count": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "cover_image_url": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "stock_quantity": {
+            "type": "number"
+          },
+          "number_of_reviews": {
+            "type": "number"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "dimensions": {
+            "$ref": "#/components/schemas/Dimensions"
+          },
+          "weight": {
+            "type": "string"
+          },
+          "edition": {
+            "type": "string"
+          },
+          "series": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "author",
+          "title",
+          "isbn",
+          "publisherId",
+          "categoryId",
+          "language",
+          "page_count",
+          "description",
+          "price",
+          "rating",
+          "stock_quantity",
+          "number_of_reviews",
+          "weight",
+          "edition",
+          "series"
+        ]
+      },
       "UpdateDimensions": {
         "type": "object",
         "properties": {
@@ -1137,19 +1336,11 @@
           },
           "password": {
             "type": "string"
-          },
-          "role": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/UserRole"
-              }
-            ]
           }
         },
         "required": [
           "email",
-          "password",
-          "role"
+          "password"
         ]
       },
       "UserBasicInfor": {
@@ -1250,6 +1441,29 @@
         "required": [
           "user"
         ]
+      },
+      "UnauthorizedException": {
+        "type": "object",
+        "properties": {}
+      },
+      "SignUpFirstStepResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "password_set_token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "password_set_token"
+        ]
+      },
+      "BadRequestException": {
+        "type": "object",
+        "properties": {}
       },
       "BulkCreateCategoriesDto": {
         "type": "object",
