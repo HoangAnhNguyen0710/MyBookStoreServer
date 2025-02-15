@@ -6,7 +6,7 @@ import {
   IsArray,
   IsInt,
 } from 'class-validator';
-import { Expose, Transform } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 
 export class BookListItem {
   @ApiProperty()
@@ -57,9 +57,12 @@ export class BookListItem {
 
 export class BookFilterResponseDto {
   @ApiProperty({ required: false })
+  @Expose()
   total?: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: false, type: () => [BookListItem] })
+  @Expose()
+  @Type(() => BookListItem)
   list?: BookListItem[];
 }
 
