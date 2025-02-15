@@ -1,9 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, Transform } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { Dimensions } from './create-book.dto';
 import { Language } from '../entities/book.entity';
 
-export class GetBookDto {}
+class PublisherDto {
+  @ApiProperty()
+  @Expose()
+  id: number;
+
+  @ApiProperty()
+  @Expose()
+  name: string;
+}
+
+class CategoryDto {
+  @ApiProperty()
+  @Expose()
+  id: number;
+
+  @ApiProperty()
+  @Expose()
+  name: string;
+}
 
 export class GetBookResponseDto {
   @ApiProperty()
@@ -22,13 +40,15 @@ export class GetBookResponseDto {
   @Expose()
   isbn: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: PublisherDto, nullable: true })
   @Expose()
-  publisherId: number | null;
+  @Type(() => PublisherDto)
+  publisher: PublisherDto | null;
 
-  @ApiProperty()
+  @ApiProperty({ type: CategoryDto, nullable: true })
   @Expose()
-  categoryId: number | null;
+  @Type(() => CategoryDto)
+  category: CategoryDto | null;
 
   @ApiProperty()
   @Expose()
