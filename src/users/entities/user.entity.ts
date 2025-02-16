@@ -1,6 +1,7 @@
 import { UserRole } from '../../constants/constants';
 import { BaseEntity } from '../../common/baseEntity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Order } from '../../orders/entities/order.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -13,7 +14,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Column({ type: 'varchar', length: 14, nullable: true })
+  @Column({ type: 'varchar', length: 20, nullable: true })
   phone_number: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
@@ -40,4 +41,9 @@ export class User extends BaseEntity {
 
   @Column({ type: 'timestamptz', nullable: true, default: null })
   password_reset_token_validate_before?: Date;
+
+  @OneToMany(() => Order, (order) => order.user, {
+    cascade: true,
+  })
+  orders: Order[];
 }

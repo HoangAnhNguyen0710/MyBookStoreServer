@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './middleware/auth.middleware';
 import { CategoriesModule } from './categories/categories.module';
+import { OrdersModule } from './orders/orders.module';
 
 // Load biến môi trường từ file .env
 config();
@@ -33,6 +34,7 @@ const pg_config: TypeOrmModuleOptions = {
     UsersModule,
     AuthModule,
     CategoriesModule,
+    OrdersModule,
   ],
 })
 export class AppModule implements NestModule {
