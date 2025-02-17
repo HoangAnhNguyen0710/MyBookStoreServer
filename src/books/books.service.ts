@@ -64,8 +64,8 @@ export class BooksService {
 
   async listingBooks(filterDto: BookFilterDto): Promise<BookFilterResponseDto> {
     const query = this.bookRepository.createQueryBuilder('book');
-    const page = filterDto.page | 1;
-    const per_page = filterDto.per_page | 20;
+    const page = filterDto.page || 1;
+    const per_page = filterDto.per_page || 20;
     if (filterDto.author?.length) {
       query.andWhere('book.author = ANY(:authors)', {
         authors: filterDto.author,
