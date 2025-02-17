@@ -10,14 +10,30 @@ import {
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(createOrderDto);
+  @ApiOperation({ summary: 'Create a new order' })
+  @ApiBody({
+    description: 'Order data including user info and order details',
+    type: CreateOrderDto,
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Order created successfully',
+    schema: { example: { orderId: 123 } },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid request data or insufficient stock',
+  })
+  async createOrder(@Body() order: CreateOrderDto) {
+    const orderId = await this.ordersService.create(order);
+    return { orderId };
   }
 
   @Get()

@@ -646,6 +646,131 @@
           "Categories"
         ]
       }
+    },
+    "/orders": {
+      "post": {
+        "operationId": "OrdersController_createOrder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Order data including user info and order details",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "orderId": 123
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data or insufficient stock"
+          }
+        },
+        "summary": "Create a new order",
+        "tags": [
+          "Orders"
+        ]
+      },
+      "get": {
+        "operationId": "OrdersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Orders"
+        ]
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "operationId": "OrdersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Orders"
+        ]
+      },
+      "patch": {
+        "operationId": "OrdersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Orders"
+        ]
+      },
+      "delete": {
+        "operationId": "OrdersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Orders"
+        ]
+      }
     }
   },
   "info": {
@@ -1511,6 +1636,126 @@
       "BulkCreateCategoriesDto": {
         "type": "object",
         "properties": {}
+      },
+      "OrderDetail": {
+        "type": "object",
+        "properties": {
+          "bookId": {
+            "type": "number",
+            "example": 2
+          },
+          "quantity": {
+            "type": "number",
+            "example": 2
+          },
+          "sub_total": {
+            "type": "number",
+            "example": 2.5
+          }
+        },
+        "required": [
+          "bookId",
+          "quantity",
+          "sub_total"
+        ]
+      },
+      "CreateOrderDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PAID",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ]
+          },
+          "payment_method": {
+            "type": "string",
+            "enum": [
+              "CREDIT_CARD",
+              "PAYPAL",
+              "CASH_ON_DELIVERY",
+              "BANK_TRANSFER"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "example": "Ship me after woking hour"
+          },
+          "shipping_address": {
+            "type": "string",
+            "example": "123 ABC street"
+          },
+          "phone_number": {
+            "type": "string",
+            "example": "+123345454553"
+          },
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDetail"
+            }
+          }
+        },
+        "required": [
+          "userId",
+          "status",
+          "payment_method",
+          "shipping_address",
+          "phone_number",
+          "detail"
+        ]
+      },
+      "UpdateOrderDto": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PAID",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ]
+          },
+          "payment_method": {
+            "type": "string",
+            "enum": [
+              "CREDIT_CARD",
+              "PAYPAL",
+              "CASH_ON_DELIVERY",
+              "BANK_TRANSFER"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "example": "Ship me after woking hour"
+          },
+          "shipping_address": {
+            "type": "string",
+            "example": "123 ABC street"
+          },
+          "phone_number": {
+            "type": "string",
+            "example": "+123345454553"
+          },
+          "detail": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDetail"
+            }
+          }
+        }
       }
     }
   }

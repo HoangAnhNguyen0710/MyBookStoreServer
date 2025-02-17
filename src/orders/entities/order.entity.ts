@@ -30,12 +30,12 @@ export class Order extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.orders, { nullable: true })
+  @ManyToOne(() => User, (user) => user.orders)
   @JoinColumn({ name: 'userId' })
-  user?: User; // Nếu người dùng có tài khoản
+  user: User;
 
-  @Column({ type: 'uuid', nullable: true })
-  userId?: string; // Nullable để hỗ trợ khách vãng lai
+  @Column({ type: 'uuid' })
+  userId: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   total_price: number;
