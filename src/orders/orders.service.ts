@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +10,7 @@ import { Order } from './entities/order.entity';
 import { OrderDetail } from './entities/order_detail.entity';
 import { In, Repository } from 'typeorm';
 import { Book } from '../books/entities/book.entity';
+import { GetOrderResponseDto } from './dto/get-order.dto';
 
 @Injectable()
 export class OrdersService {
@@ -48,11 +53,11 @@ export class OrdersService {
           );
         }
 
-        total_price += book.price * item.quantity; // Tính tổng tiền
-        book.stock_quantity -= item.quantity; // Giảm tồn kho
+        total_price += item.sub_total; // Calculate total price
+        book.stock_quantity -= item.quantity; // Reduce quantity
         return book;
       });
-      // 🔹 Tạo Order
+      // 🔹 Create order
       const newOrder = this.orderRepository.create({
         userId: order.userId || undefined,
         status: order.status,
@@ -65,7 +70,7 @@ export class OrdersService {
 
       const savedOrder = await this.orderRepository.save(newOrder);
 
-      // 🔹 Lưu OrderDetail với orderId
+      // 🔹 Save order detail with id
       const orderDetails = order.detail.map((item) => ({
         orderId: savedOrder.id,
         bookId: item.bookId,
@@ -91,8 +96,32 @@ export class OrdersService {
     return `This action returns all orders`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findById(orderId: number): Promise<GetOrderResponseDto | null> {
+    const order = await this.orderRepository.findOne({
+      where: { id: orderId },
+      relations: ['items', 'items.book'], // Load order detail and detail's book
+    });
+
+    if (!order) throw new NotFoundException('Order is not exist!');
+
+    return {
+      id: order.id,
+      userId: order.userId,
+      total_price: order.total_price,
+      status: order.status,
+      payment_method: order.payment_method,
+      shipping_address: order.shipping_address,
+      phone_number: order.phone_number,
+      note: order.note,
+      detail: order.items.map((detail) => ({
+        orderId: detail.orderId,
+        bookId: detail.bookId,
+        book_title: detail.book.title,
+        book_price: detail.book.price,
+        quantity: detail.quantity,
+        sub_total: detail.sub_total,
+      })),
+    };
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {
