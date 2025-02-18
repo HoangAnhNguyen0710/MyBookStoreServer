@@ -37,11 +37,11 @@ export class Order {
 
   total_price: number;
 
-  @ApiProperty({ enum: OrderStatus })
+  @ApiProperty({ enum: OrderStatus, enumName: 'OrderStatus' })
   @IsEnum(OrderStatus)
   status: OrderStatus;
 
-  @ApiProperty({ enum: PaymentMethod })
+  @ApiProperty({ enum: PaymentMethod, enumName: 'PaymentMethod' })
   @IsEnum(PaymentMethod)
   payment_method: PaymentMethod;
 
