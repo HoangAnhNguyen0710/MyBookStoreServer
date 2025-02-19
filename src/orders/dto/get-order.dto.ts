@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
-import { OrderStatus, PaymentMethod } from '../entities/order.entity';
+import { OrderStatus, PaymentMethod } from '../../constants/constants';
 
 export class OrderDetailResponseDto {
   @ApiProperty({ example: 1 })

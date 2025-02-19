@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Language } from '../entities/book.entity';
+import { Language } from '../../constants/constants';
 
 export class Dimensions {
   @ApiProperty({ example: '20cm' })
