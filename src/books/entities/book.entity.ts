@@ -1,3 +1,4 @@
+import { BookStatus, Language } from '../../constants/constants';
 import { Category } from '../../categories/entities/category.entity';
 import { BaseEntity } from '../../common/baseEntity';
 import { Publisher } from '../../publishers/entities/publisher.entity';
@@ -8,30 +9,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-
-export enum Language {
-  ENGLISH = 'English',
-  SPANISH = 'Spanish',
-  FRENCH = 'French',
-  GERMAN = 'German',
-  CHINESE = 'Chinese',
-  JAPANESE = 'Japanese',
-  KOREAN = 'Korean',
-  ITALIAN = 'Italian',
-  RUSSIAN = 'Russian',
-  HINDI = 'Hindi',
-  ARABIC = 'Arabic',
-  // Add more languages as needed
-}
-
-export enum BookStatus {
-  AVAILABLE = 'AVAILABLE', // Còn hàng
-  OUT_OF_STOCK = 'OUT_OF_STOCK', // Hết hàng
-  PRE_ORDER = 'PRE_ORDER', // Sắp bán (đặt trước)
-  SOLD_OUT = 'SOLD_OUT', // Đã bán hết
-  COMING_SOON = 'COMING_SOON', // Sắp có hàng
-  DISCONTINUED = 'DISCONTINUED', // Ngừng kinh doanh
-}
 
 @Entity('books')
 export class Book extends BaseEntity {

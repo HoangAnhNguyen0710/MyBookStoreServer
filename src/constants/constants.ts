@@ -21,3 +21,42 @@ export enum ErrorMessages {
   PAYMENT_FAILED = 'Payment failed, please try again.',
   INTERNAL_SERVER_ERROR = 'An unexpected error occurred. Please try again later.',
 }
+
+export enum Language {
+  ENGLISH = 'English',
+  SPANISH = 'Spanish',
+  FRENCH = 'French',
+  GERMAN = 'German',
+  CHINESE = 'Chinese',
+  JAPANESE = 'Japanese',
+  KOREAN = 'Korean',
+  ITALIAN = 'Italian',
+  RUSSIAN = 'Russian',
+  HINDI = 'Hindi',
+  ARABIC = 'Arabic',
+  // Add more languages as needed
+}
+
+export enum BookStatus {
+  AVAILABLE = 'AVAILABLE', // Còn hàng
+  OUT_OF_STOCK = 'OUT_OF_STOCK', // Hết hàng
+  PRE_ORDER = 'PRE_ORDER', // Sắp bán (đặt trước)
+  SOLD_OUT = 'SOLD_OUT', // Đã bán hết
+  COMING_SOON = 'COMING_SOON', // Sắp có hàng
+  DISCONTINUED = 'DISCONTINUED', // Ngừng kinh doanh
+}
+
+export enum OrderStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum PaymentMethod {
+  CREDIT_CARD = 'CREDIT_CARD',
+  PAYPAL = 'PAYPAL',
+  CASH_ON_DELIVERY = 'CASH_ON_DELIVERY',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+}

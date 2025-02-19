@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform, Type } from 'class-transformer';
 import { Dimensions } from './create-book.dto';
-import { Language } from '../entities/book.entity';
+import { Language } from '../../constants/constants';
 
 class PublisherDto {
   @ApiProperty()

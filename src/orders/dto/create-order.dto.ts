@@ -11,7 +11,7 @@ import {
   IsNumber,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { OrderStatus, PaymentMethod } from '../entities/order.entity';
+import { OrderStatus, PaymentMethod } from '../../constants/constants';
 
 export class OrderDetail {
   @IsOptional()

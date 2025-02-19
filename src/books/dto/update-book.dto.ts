@@ -10,7 +10,7 @@ import {
   IsArray,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { BookStatus, Language } from '../entities/book.entity';
+import { BookStatus, Language } from '../../constants/constants';
 
 export class UpdateDimensions {
   @ApiProperty({ example: '20cm', required: false })

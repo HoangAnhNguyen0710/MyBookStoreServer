@@ -9,21 +9,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { OrderDetail } from './order_detail.entity';
-
-export enum OrderStatus {
-  PENDING = 'PENDING',
-  PAID = 'PAID',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
-}
-
-export enum PaymentMethod {
-  CREDIT_CARD = 'CREDIT_CARD',
-  PAYPAL = 'PAYPAL',
-  CASH_ON_DELIVERY = 'CASH_ON_DELIVERY',
-  BANK_TRANSFER = 'BANK_TRANSFER',
-}
+import { OrderStatus, PaymentMethod } from '../../constants/constants';
 
 @Entity('orders')
 export class Order extends BaseEntity {
