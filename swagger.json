@@ -730,7 +730,7 @@
           "Orders"
         ]
       },
-      "patch": {
+      "put": {
         "operationId": "OrdersController_update",
         "parameters": [
           {
@@ -744,6 +744,7 @@
         ],
         "requestBody": {
           "required": true,
+          "description": "Order basic data such as status, address, ..etc..",
           "content": {
             "application/json": {
               "schema": {
@@ -754,9 +755,13 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "return true if order successful updated"
+          },
+          "404": {
+            "description": "Order with id (:id) is not exist!"
           }
         },
+        "summary": "Update order basic information",
         "tags": [
           "Orders"
         ]
@@ -1837,9 +1842,6 @@
       "UpdateOrderDto": {
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "string"
-          },
           "status": {
             "allOf": [
               {
@@ -1865,14 +1867,14 @@
           "phone_number": {
             "type": "string",
             "example": "+123345454553"
-          },
-          "detail": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderDetail"
-            }
           }
-        }
+        },
+        "required": [
+          "status",
+          "payment_method",
+          "shipping_address",
+          "phone_number"
+        ]
       }
     }
   }
