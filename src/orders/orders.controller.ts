@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -43,7 +43,6 @@ export class OrdersController {
   }
 
   @Get(':id')
-  @Get(':id')
   @ApiOperation({ summary: 'Get order details by ID' })
   @ApiResponse({ status: 200, type: GetOrderResponseDto })
   @ApiResponse({ status: 404, description: 'Order not found' })
@@ -51,9 +50,26 @@ export class OrdersController {
     return this.ordersService.findById(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.ordersService.update(+id, updateOrderDto);
+  @Put(':id')
+  @ApiOperation({ summary: 'Update order basic information' })
+  @ApiBody({
+    description: 'Order basic data such as status, address, ..etc..',
+    type: UpdateOrderDto,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'return true if order successful updated',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Order with id (:id) is not exist!',
+  })
+  async update(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ) {
+    await this.ordersService.update(+id, updateOrderDto);
+    return true;
   }
 
   @Delete(':id')

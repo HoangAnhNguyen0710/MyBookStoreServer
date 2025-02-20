@@ -124,9 +124,21 @@ export class OrdersService {
     };
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    console.log(updateOrderDto);
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    try {
+      const order = await this.orderRepository.findOne({ where: { id: id } });
+      if (!order) {
+        throw new NotFoundException(`Order with id ${id} is not exist!`);
+      }
+      Object.assign(order, updateOrderDto);
+      return this.orderRepository.save(order);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      const err = error as Error;
+      throw new BadRequestException(err.message || 'Update order failed');
+    }
   }
 
   remove(id: number) {
