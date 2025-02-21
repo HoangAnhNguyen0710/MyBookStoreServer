@@ -54,7 +54,11 @@ export class AuthController {
       },
     },
   })
-  @ApiResponse({ status: 200, type: LoginResponseDto })
+  @ApiResponse({
+    status: 200,
+    type: LoginResponseDto,
+    description: 'return access_token, refresh_token and user basic infor',
+  })
   @ApiResponse({
     status: 401,
     type: UnauthorizedException,
@@ -114,7 +118,11 @@ export class AuthController {
       },
     },
   })
-  @ApiResponse({ status: 200, type: Boolean })
+  @ApiResponse({
+    status: 200,
+    type: Boolean,
+    description: 'return true if sign up success',
+  })
   @ApiResponse({
     status: 400,
     type: BadRequestException,
@@ -126,6 +134,10 @@ export class AuthController {
   })
   @ApiResponse({
     status: 401,
+    type: BadRequestException,
+  })
+  @ApiResponse({
+    status: 403,
     type: UnauthorizedException,
     example: {
       message: 'Token is invalidated',

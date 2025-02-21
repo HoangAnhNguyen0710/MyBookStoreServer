@@ -83,6 +83,10 @@ export class BooksController {
     status: 200,
     description: 'return true if book successful updated',
   })
+  @ApiResponse({
+    status: 404,
+    description: 'book with id (:id) is not exist!',
+  })
   async update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
     await this.booksService.update(+id, updateBookDto);
     return true;

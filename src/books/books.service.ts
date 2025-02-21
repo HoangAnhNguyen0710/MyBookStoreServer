@@ -49,7 +49,7 @@ export class BooksService {
     const book = await this.bookRepository.findOne({ where: { id } });
 
     if (!book) {
-      throw new NotFoundException(`Không tìm thấy sách với ID ${id}`);
+      throw new NotFoundException(`Book with ID ${id} is not exist!`);
     }
 
     // Cập nhật thông tin sách
