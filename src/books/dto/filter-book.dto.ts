@@ -71,6 +71,10 @@ export class BookFilter {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
+  @Transform(
+    ({ value }) =>
+      (Array.isArray(value) ? value : [value]).filter(Boolean) as string[],
+  )
   author?: string[];
 
   @ApiProperty({ required: false })

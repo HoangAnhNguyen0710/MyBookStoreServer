@@ -191,6 +191,9 @@
         "responses": {
           "200": {
             "description": "return true if book successful updated"
+          },
+          "404": {
+            "description": "book with id (:id) is not exist!"
           }
         },
         "summary": "update a book by id",
@@ -415,7 +418,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "return access_token, refresh_token and user basic infor",
             "content": {
               "application/json": {
                 "schema": {
@@ -531,7 +534,7 @@
         },
         "responses": {
           "200": {
-            "description": "",
+            "description": "return true if sign up success",
             "content": {
               "application/json": {
                 "schema": {
@@ -556,6 +559,16 @@
             }
           },
           "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestException"
+                }
+              }
+            }
+          },
+          "403": {
             "description": "",
             "content": {
               "application/json": {
