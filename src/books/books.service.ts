@@ -67,10 +67,14 @@ export class BooksService {
     const page = filterDto.page || 1;
     const per_page = filterDto.per_page || 20;
     if (filterDto.author?.length) {
-      query.andWhere('book.author = ANY(:authors)', {
-        authors: filterDto.author,
-      });
+      query.andWhere(
+        `book.author ILIKE ANY(ARRAY[${filterDto.author.map((_name, i) => `:author${i}`).join(', ')}])`,
+        Object.fromEntries(
+          filterDto.author.map((name, i) => [`author${i}`, `%${name}%`]),
+        ),
+      );
     }
+
     if (filterDto.category_ids?.length) {
       query.andWhere('book.categoryId = ANY(:categories)', {
         categories: filterDto.category_ids,
