@@ -656,7 +656,21 @@
           }
         },
         "tags": [
-          "Categories"
+          "category"
+        ]
+      }
+    },
+    "/categories": {
+      "get": {
+        "operationId": "CategoriesController_getAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "category"
         ]
       }
     },
@@ -1661,6 +1675,39 @@
       "BadRequestException": {
         "type": "object",
         "properties": {}
+      },
+      "CategoryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1,
+            "description": "Category Id"
+          },
+          "name": {
+            "type": "string",
+            "example": "historical",
+            "description": "Category name"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ListingCategoriesResponseDto": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryItem"
+            }
+          }
+        },
+        "required": [
+          "list"
+        ]
       },
       "BulkCreateCategoriesDto": {
         "type": "object",

@@ -3,6 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BulkCreateCategoriesDto } from './dto/create-category.dto';
 import { Category } from './entities/category.entity';
+import {
+  CategoryItem,
+  ListingCategoriesResponseDto,
+} from './dto/listing-category.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CategoriesService {
@@ -38,5 +43,16 @@ export class CategoriesService {
     }
 
     return this.categoryRepository.save(newCategories, { chunk: 100 });
+  }
+
+  async ListingCategories(): Promise<ListingCategoriesResponseDto> {
+    const list = await this.categoryRepository.find();
+    return {
+      list: list.map((category) =>
+        plainToInstance(CategoryItem, category, {
+          excludeExtraneousValues: true,
+        }),
+      ),
+    };
   }
 }
